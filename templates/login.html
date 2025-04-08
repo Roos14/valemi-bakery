@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Valemi Bakery</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <section class="login-section">
+      <img
+        <img
+        src="{{ url_for('static', filename='img/productos/logo_reducido.png') }}"
+        alt="Valemi Bakery Logo"
+        class="logo"
+        style="width: 100px; margin-bottom: 20px"
+      />
+      <h2>Iniciar Sesión</h2>
+      <form method="POST" action="{{ url_for('login') }}">
+        <input type="text" name="usuario" placeholder="Usuario" required />
+        <input
+          type="password"
+          name="contrasena"
+          placeholder="Contraseña"
+          required
+        />
+        <button type="submit">Entrar</button>
+      </form>
+      {% if error %}
+      <p style="color: red; margin-top: 10px">{{ error }}</p>
+      {% endif %}
+    </section>
+
+    <footer>
+      <p>&copy; 2025 Valemi Bakery - Todos los derechos reservados</p>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar Producto</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <style>
+      @media (max-width: 600px) {
+        .main-header h1 {
+          font-size: 22px;
+          text-align: center;
+        }
+
+        .admin-panel form label,
+        .admin-panel form input,
+        .admin-panel form button {
+          font-size: 14px;
+        }
+
+        .volver-btn {
+          margin-top: 10px;
+          font-size: 14px;
+          padding: 8px 12px;
+        }
+
+        img {
+          width: 100%;
+          max-width: 200px;
+          height: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!--  Header con logo -->
+    <header class="main-header">
+      <div class="header-content">
+        <div class="logo-nombre">
+          <img
+            src="{{ url_for('static', filename='img/productos/logo_reducido.png') }}"
+            alt="Valemi Bakery Logo"
+            class="logo"
+          />
+          <h1>✏️ Editar Producto</h1>
+        </div>
+        <div>
+          <a href="{{ url_for('admin') }}" class="volver-btn"
+            >⬅ Volver al Panel</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <!--  Formulario -->
+    <section class="admin-panel">
+      <form
+        action="{{ url_for('editar_producto', id=producto.id) }}"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        <label for="nombre">Nombre:</label>
+        <input
+          type="text"
+          name="nombre"
+          value="{{ producto.nombre }}"
+          required
+        />
+
+        <label for="precio">Precio (RD$):</label>
+        <input
+          type="number"
+          name="precio"
+          value="{{ producto.precio }}"
+          step="0.01"
+          required
+        />
+
+        <label>Imagen actual:</label><br />
+        {% if producto.imagen %}
+        <img
+          src="{{ url_for('static', filename=producto.imagen) }}"
+          alt="Imagen actual"
+          class="img-preview"
+        />
+        {% else %}
+        <p>No hay imagen disponible.</p>
+        {% endif %}
+
+        <br /><br />
+        <label for="imagen">Cambiar imagen:</label>
+        <input type="file" name="imagen" accept="image/*" class="input-file" />
+
+        <button type="submit">💾 Guardar Cambios</button>
+      </form>
+    </section>
+
+    <!--  Footer -->
+    <footer>
+      <p>&copy; 2025 Valemi Bakery - Todos los derechos reservados</p>
+    </footer>
+  </body>
+</html>

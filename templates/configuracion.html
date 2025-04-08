@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Configuración - Valemi Bakery</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <!-- Header con diseño mejorado -->
+    <header class="main-header">
+      <div class="header-content">
+        <div class="logo-nombre">
+          <img
+            src="{{ url_for('static', filename='img/productos/logo_reducido.png') }}"
+            alt="Valemi Bakery Logo"
+            class="logo"
+          />
+          <h1 class="nombre-negocio">⚙️ Configuración del Sistema</h1>
+        </div>
+
+        <a href="{{ url_for('admin') }}" class="volver-btn"
+          >⬅ Volver al Panel</a
+        >
+      </div>
+    </header>
+
+    <!--  MENSAJE FLASH -->
+    {% with mensajes = get_flashed_messages() %} {% if mensajes %}
+    <div class="mensaje-flash">
+      {% for msg in mensajes %}
+      <p>{{ msg }}</p>
+      {% endfor %}
+    </div>
+    {% endif %} {% endwith %}
+
+    <section class="admin-panel">
+      <form method="POST" action="{{ url_for('configuracion') }}">
+        <label for="whatsapp">📞 Número de WhatsApp:</label>
+        <input
+          type="text"
+          name="whatsapp"
+          id="whatsapp"
+          value="{{ config.whatsapp }}"
+          required
+        />
+
+        <label for="instagram">📷 Enlace de Instagram:</label>
+        <input
+          type="text"
+          name="instagram"
+          id="instagram"
+          value="{{ config.instagram }}"
+          required
+        />
+
+        <button type="submit">💾 Guardar Cambios</button>
+      </form>
+    </section>
+
+    <footer>
+      <p>&copy; 2025 Valemi Bakery - Todos los derechos reservados</p>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Valemi Bakery</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lobster&family=Poppins&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <header class="main-header">
+      <div class="header-content">
+        <div class="logo-nombre">
+          <img
+            src="{{ url_for('static', filename='img/productos/logo_reducido.png') }}"
+            alt="Valemi Bakery Logo"
+            class="logo"
+          />
+          <h1 class="nombre-negocio">Valemi Bakery</h1>
+        </div>
+
+        <!-- Botón hamburguesa para móviles -->
+        <button class="hamburger" onclick="toggleMenu()">☰</button>
+
+        <nav id="nav-menu" class="nav-derecha">
+          <ul>
+            <li><a href="{{ url_for('index') }}">Inicio</a></li>
+            <li><a href="{{ url_for('menu') }}">Menú</a></li>
+            <li><a href="{{ url_for('contacto') }}">Contacto</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <section class="bienvenida">
+      <h2>Bienvenidos a Valemi Bakery</h2>
+      <p>
+        En Valemi Bakery, nos dedicamos a crear postres irresistibles que
+        endulzan tu día. Nuestra pasión por la repostería se refleja en cada uno
+        de nuestros productos, elaborados con los mejores ingredientes y un
+        toque de amor.
+      </p>
+      <p>
+        Descubre nuestros deliciosos postres, como el clásico Flan, el suave
+        Flan de Coco, el único Choco Flan, el exquisito Tiramisu, el cremoso
+        Cheesecake, el irresistible Brownie y nuestras irresistibles Galletas de
+        Chocolate.
+      </p>
+      <p>
+        Cada bocado es una experiencia única que te hará volver por más. ¡Déjate
+        consentir por los sabores auténticos y frescos de Valemi Bakery!
+      </p>
+    </section>
+
+    <section class="menu">
+      <h2>Postres destacados</h2>
+      <div class="productos">
+        {% for producto in productos %}
+        <div class="producto">
+          {% if producto.imagen %}
+          <img
+            src="{{ url_for('static', filename=producto.imagen) }}"
+            alt="{{ producto.nombre }}"
+          />
+          {% else %}
+          <p>Sin imagen</p>
+          {% endif %}
+          <h3>{{ producto.nombre }}</h3>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <a
+      href="https://wa.me/{{ whatsapp }}?text=Hola,%20quiero%20hacer%20un%20pedido%20en%20Valemy%20Bakery"
+      class="whatsapp-btn"
+      target="_blank"
+    >
+      📞 Hacer Pedido por WhatsApp
+    </a>
+
+    <div class="instagram-link">
+      <a href="{{ instagram }}" target="_blank">
+        <img
+          src="{{ url_for('static', filename='img/productos/logo_instagram.png') }}"
+          alt="Instagram"
+          class="instagram-logo"
+        />
+        Síguenos en Instagram
+      </a>
+    </div>
+
+    <footer>
+      <p>&copy; 2025 Valemi Bakery - Todos los derechos reservados</p>
+    </footer>
+
+    <script>
+      function toggleMenu() {
+        const menu = document.getElementById("nav-menu");
+        menu.classList.toggle("show");
+      }
+    </script>
+  </body>
+</html>

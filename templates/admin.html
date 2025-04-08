@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panel de Administración</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <!-- Header con diseño mejorado -->
+    <header class="main-header">
+      <div class="header-content">
+        <div class="logo-nombre">
+          <img
+            src="{{ url_for('static', filename='img/productos/logo_reducido.png') }}"
+            alt="Valemi Bakery Logo"
+            class="logo"
+          />
+          <h1 class="nombre-negocio">Panel Admin | {{ usuario }}</h1>
+        </div>
+
+        <div class="admin-links">
+          <a href="{{ url_for('index') }}" target="_blank" class="visit-link"
+            >🏠 Ver página</a
+          >
+          <a href="{{ url_for('configuracion') }}" class="boton-config"
+            >⚙️ Configuración</a
+          >
+          <a href="{{ url_for('logout') }}" class="logout-btn"
+            >🚪 Cerrar sesión</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <!--  MENSAJE FLASH -->
+    {% with mensajes = get_flashed_messages() %} {% if mensajes %}
+    <div class="mensaje-flash">
+      {% for msg in mensajes %}
+      <p>{{ msg }}</p>
+      {% endfor %}
+    </div>
+    {% endif %} {% endwith %}
+
+    <section class="admin-panel">
+      <h2>Agregar nuevo producto</h2>
+      <form
+        action="{{ url_for('agregar_producto') }}"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        <input
+          type="text"
+          name="nombre"
+          placeholder="Nombre del producto"
+          required
+        />
+        <input
+          type="number"
+          name="precio"
+          placeholder="Precio RD$"
+          step="0.01"
+          required
+        />
+        <input
+          type="file"
+          name="imagen"
+          accept="image/*"
+          class="input-file"
+          required
+        />
+        <button type="submit">Agregar</button>
+      </form>
+
+      <h2>Productos actuales</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Imagen</th>
+            <th>Nombre</th>
+            <th>Precio (RD$)</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for producto in productos %}
+          <tr>
+            <td>
+              {% if producto.imagen %}
+              <img
+                src="{{ url_for('static', filename=producto.imagen) }}"
+                alt="{{ producto.nombre }}"
+                width="80"
+              />
+              {% else %} Sin imagen {% endif %}
+            </td>
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.precio }}</td>
+            <td>
+              <a href="{{ url_for('editar_producto', id=producto.id) }}"
+                >✏️ Editar</a
+              >
+              |
+              <a
+                href="{{ url_for('eliminar_producto', id=producto.id) }}"
+                onclick="return confirm('¿Eliminar este producto?')"
+                >Eliminar</a
+              >
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <!--  Paginación -->
+      <div class="paginacion">
+        {% if total_pages > 1 %}
+        <div class="paginacion-controles">
+          {% if current_page > 1 %}
+          <a href="{{ url_for('admin', page=current_page-1) }}">⬅ Anterior</a>
+          {% endif %}
+
+          <span>Página {{ current_page }} de {{ total_pages }}</span>
+
+          {% if current_page < total_pages %}
+          <a href="{{ url_for('admin', page=current_page+1) }}">Siguiente ➡</a>
+          {% endif %}
+        </div>
+        {% endif %}
+      </div>
+    </section>
+    <!--  Footer -->
+    <footer>
+      <p>&copy; 2025 Valemi Bakery - Todos los derechos reservados</p>
+    </footer>
+  </body>
+</html>
