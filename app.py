@@ -4,7 +4,7 @@ import os
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-app.secret_key = 'clave_secreta_valemi'
+app.secret_key = os.getenv('FLASK_SECRET', 'clave_secreta_valemi')
 
 # Configuración para subida de imágenes
 UPLOAD_FOLDER = 'static/img/productos'
